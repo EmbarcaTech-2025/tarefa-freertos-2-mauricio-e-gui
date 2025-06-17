@@ -49,6 +49,14 @@ pico_sdk_init()
 add_executable(FreeRTOS 
         FreeRTOS.c
         src/main.c
+        inc/ssd1306_i2c.c
+        drivers/buzzer.c
+        drivers/display.c
+        drivers/joystick.c
+        headers/buzzer.h
+        headers/display.h
+        headers/joystick.h
+        headers/FreeRTOSConfig.h
  )
 
 pico_set_program_name(FreeRTOS "FreeRTOS")
@@ -74,6 +82,11 @@ target_include_directories(FreeRTOS PRIVATE
 target_link_libraries(FreeRTOS 
         pico_stdlib
         FreeRTOS-Kernel-Heap4
+        pico_hardware
+        hardware_adc
+        hardware_pwm
+        hardware_timer    
+        hardware_i2c
         )
 
 pico_add_extra_outputs(FreeRTOS)
