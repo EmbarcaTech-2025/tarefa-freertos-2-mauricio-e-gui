@@ -30,7 +30,7 @@ cmake_minimum_required(VERSION 3.12)
 SET(ProjectName rp2040-freertos-template)
 
 # Set any variables required for importing libraries
-SET(FREERTOS_PATH ${CMAKE_CURRENT_LIST_DIR}/FreeRTOS)
+SET(FREERTOS_PATH ${CMAKE_CURRENT_LIST_DIR}/FreeRTOS-Kernel)
 
 message("FreeRTOS Kernel located in ${FREERTOS_PATH}")
 
@@ -47,8 +47,8 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(FreeRTOS 
-        FreeRTOS.c
         src/main.c
+        oled/display.c
  )
 
 pico_set_program_name(FreeRTOS "FreeRTOS")
@@ -60,7 +60,9 @@ pico_enable_stdio_usb(FreeRTOS 1)
 
 # Add the standard library to the build
 target_link_libraries(FreeRTOS
-        pico_stdlib)
+        pico_stdlib
+        hardware_i2c
+        )
 
 # Add the standard include files to the build
 target_include_directories(FreeRTOS PRIVATE

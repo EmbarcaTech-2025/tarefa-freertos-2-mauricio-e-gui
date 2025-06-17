@@ -1,26 +1,18 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
-#define RGB_LED_G 11
+#include "FreeRTOS.h"
+#include "FreeRTOS-Kernel/include/queue.h"
+#include "FreeRTOS-Kernel/include/task.h"
 
-void blink_task(void *params) {
-    const uint LED_PIN = RGB_LED_G;
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
+QueueHandle_t joystickQueue;
 
-    while (1) {
-        gpio_put(LED_PIN, 1);
-        vTaskDelay(pdMS_TO_TICKS(500));
-        gpio_put(LED_PIN, 0);
-        vTaskDelay(pdMS_TO_TICKS(500));
-    }
-}
 
 int main()
 {
-    stdio_init_all();
-    xTaskCreate(blink_task, "Blink", 256, NULL, 1, NULL); //Task, name, quantidade_max_recursos?,?, prioridade, handler
-    vTaskStartScheduler();                               // Inicia agendador
+    stdio_init_all();  
+    joystickQueue = xQueueCreate(10, sizeof(int));                          
     while (true) {
+        
         printf("Hello, world!\n");
         sleep_ms(1000);
     }
