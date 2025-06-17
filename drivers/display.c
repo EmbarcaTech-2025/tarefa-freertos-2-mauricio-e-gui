@@ -31,3 +31,17 @@ void display_clear()
     memset(ssd, 0, ssd1306_buffer_length);
     render_on_display(ssd, &frame_area);
 }
+
+void draw_pixel(uint8_t x, uint8_t y, bool color) {
+    // Cálculo da posição no buffer
+    if (x >= ssd1306_width || y >= ssd1306_height) return;
+    uint16_t byte_index = x + (y / 8) * ssd1306_width;
+    if (color)
+        ssd[byte_index] |= (1 << (y % 8));
+    else
+        ssd[byte_index] &= ~(1 << (y % 8));
+}
+
+void render() {
+    render_on_display(ssd, &frame_area);
+}

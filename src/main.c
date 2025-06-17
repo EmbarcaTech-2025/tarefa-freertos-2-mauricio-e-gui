@@ -18,25 +18,46 @@ void blink_task(void *params) {
     }
 }
 
+void joystick_oled_task(void *params) {
+    uint16_t x_read, y_read;
+    uint8_t x_pos = 64; // centro X (128/2)
+    uint8_t y_pos = 32; // centro Y (64/2)
+
+    display_init();
+
+    while (1) {
+        x_read = get_average_reading(0); // X = ADC0
+        y_read = get_average_reading(1); // Y = ADC1
+
+        // Aplica zona morta (opcional)
+        x_read = apply_dead_zone(x_read);
+        y_read = apply_dead_zone(y_read);
+
+        // Mapeia para coordenadas da tela
+        x_pos = (x_read * 128) / 4095;
+        y_pos = (y_read * 64) / 4095;
+
+        // Limpa e desenha
+        display_clear();
+        draw_pixel(x_pos, y_pos, true);
+        render();
+
+        vTaskDelay(pdMS_TO_TICKS(100)); // delay FreeRTOS
+    }
+}
+
+
 int main()
 {
-    stdio_init_all(); 
-    //Init Joystick
-    init_joystick_adc(); 
-    //Init FreeRTOS
-    xTaskCreate(blink_task, "Blink", 256, NULL, 1, NULL);    //Task, name, quantidade_max_recursos?,?, prioridade, handler
-    vTaskStartScheduler();                                  // Inicia agendador   
-                          
-    
-    while (true) {
-        uint16_t y = get_average_reading(0); // ADC0
-        uint16_t x = get_average_reading(1); // ADC1
+    stdio_init_all();
+    init_joystick_adc();
 
-        // Aplica a zona morta
-        x = apply_dead_zone(x);
-        y = apply_dead_zone(y);
+    // Cria as duas tasks
+    xTaskCreate(blink_task, "Blink", 256, NULL, 1, NULL);
+    xTaskCreate(joystick_oled_task, "JoyOLED", 512, NULL, 1, NULL);
 
-        printf("Joystick X: %u, Y: %u\n", x, y);
-        sleep_ms(200);
-    }
+    vTaskStartScheduler(); // Inicia o agendador
+
+    // Não será mais executado
+    while (true) {}
 }

@@ -15,4 +15,10 @@ void display_init();
 // Limpa o display
 void display_clear();
 
+// Desenha um pixel na posição (x, y)
+void draw_pixel(uint8_t x, uint8_t y, bool color);
+
+// Renderiza o buffer atual na tela
+void render(void);
+
 #endif
