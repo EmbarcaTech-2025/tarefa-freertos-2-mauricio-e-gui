@@ -9,9 +9,6 @@
 #define I2C_SDA 14
 #define I2C_SCL 15
 
-// Inicializa o display OLED
-void display_init();
-
 // Tarefa RTOS
 void vDisplayTask(void *pvParameters);
 

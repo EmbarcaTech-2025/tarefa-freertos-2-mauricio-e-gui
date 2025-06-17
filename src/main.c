@@ -26,18 +26,13 @@ int main()
 {
     stdio_init_all(); 
 
-    //init display
-    display_init();
-
     //Init Joystick
     init_joystick_adc(); 
     //Init FreeRTOS
     xTaskCreate(blink_task, "Blink", 256, NULL, 1, NULL);
-    xTaskCreate(vDisplayTask, "Blink", 256, NULL, 1, NULL);    //Task, name, quantidade_max_recursos?,?, prioridade, handler
+    xTaskCreate(vDisplayTask, "Display", 256, NULL, 1, NULL);    //Task, name, quantidade_max_recursos?,?, prioridade, handler
     vTaskStartScheduler();                                  // Inicia agendador   
                           
-    
-    stdio_init_all();  
                    
     while (true) {
 
