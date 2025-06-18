@@ -1,8 +1,10 @@
-#include "../headers/display.h"
+
 #include <string.h>
 #include "../FreeRTOS-Kernel/include/FreeRTOS.h"
 #include "../FreeRTOS-Kernel/include/queue.h"
 #include <stdio.h>
+#include "comunicacao.h"
+#include "display.h"
 
 
 // Buffer para o display
@@ -39,18 +41,14 @@ void display_init()
 
 
 
-extern QueueHandle_t joystickQueue;
-
-static int x = 5, y = 8;
-
-
-
 void vDisplayTask(void *pvParameters) {
-    display_init();    
+    display_init();
+    Coordenada recebida;    
     while (1) {
-        ssd1306_set_pixel(ssd,x+=2,y+=2,true);
-       
-        render_on_display(ssd,&frame_area);
-        vTaskDelay(500);
+        if (xQueueReceive(xFila, &recebida, portMAX_DELAY) == pdPASS){
+            ssd1306_set_pixel(ssd,recebida.x,recebida.y,true);
+            render_on_display(ssd,&frame_area);
+        }
+        
     }
 }

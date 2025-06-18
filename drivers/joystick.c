@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "comunicacao.h"
 #include "joystick.h"
 #include "hardware/adc.h"
 
-#define JOY_X 26 // GPIO26 -> ADC0
-#define JOY_Y 27 // GPIO27 -> ADC1
-#define SAMPLES 10 // Número de amostras para a média
-#define DEAD_ZONE 50 // Zona morta para o repouso (em torno do valor médio)
+
+
 
 void init_joystick_adc() {
     adc_init();
