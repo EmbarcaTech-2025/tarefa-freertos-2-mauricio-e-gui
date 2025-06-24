@@ -12,5 +12,6 @@ typedef struct {
 
 // Declaração da fila que será usada entre tasks
 extern QueueHandle_t xFila;
+extern QueueHandle_t xFilaBuzzer;
 
 #endif // COMUNICACAO_H

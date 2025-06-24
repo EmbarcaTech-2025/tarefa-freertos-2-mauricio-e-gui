@@ -5,6 +5,7 @@
 #include "queue.h"
 #include "joystick.h"
 #include "display.h"
+#include "buzzer.h"
 #include "comunicacao.h"
 
 
@@ -13,6 +14,7 @@
 
 
 QueueHandle_t xFila;
+QueueHandle_t xFilaBuzzer;
 
 void blink_task(void *params) {
     const uint LED_PIN = RGB_LED_G;
@@ -32,8 +34,11 @@ void joystick_task(void *params) {
     uint8_t x_pos = 64; // centro X (128/2)
     uint8_t y_pos = 32; // centro Y (64/2)
     Coordenada pos = {0, 0};
-
+    uint8_t x_pass=0; //guarda os valores do ultimo envio
+    uint8_t y_pass=0;
+    int duracao_bip = 100;
     while (1) {
+
         x_read = get_average_reading(0); // X = ADC0
         y_read = get_average_reading(1); // Y = ADC1
 
@@ -48,9 +53,15 @@ void joystick_task(void *params) {
         pos.x = x_pos;
         pos.y = y_pos;
 
+    
         // Envia para a fila
-        xQueueSend(xFila, &pos, portMAX_DELAY);
-
+        if(pos.x != x_pass || pos.y != y_pass) {
+            xQueueSend(xFila, &pos, portMAX_DELAY);
+            xQueueSend(xFilaBuzzer, &duracao_bip, portMAX_DELAY); // Envia sinal para tocar buzzer
+            x_pass = pos.x; // Atualiza os valores enviados
+            y_pass = pos.y;
+        }
+        
     }
 }
 int main()
@@ -61,9 +72,13 @@ int main()
     init_joystick_adc(); 
 
     xFila = xQueueCreate(10, sizeof(Coordenada));
+    xFilaBuzzer = xQueueCreate(10, sizeof(int));
     //Init FreeRTOS
     xTaskCreate(joystick_task, "Joystick", 256, NULL, 1, NULL);
-    xTaskCreate(vDisplayTask, "Display", 256, NULL, 1, NULL);    //Task, name, quantidade_max_recursos?,?, prioridade, handler
+    xTaskCreate(vDisplayTask, "Display", 256, NULL, 1, NULL); 
+    xTaskCreate(buzzer_bip, "Buzzer", 256, NULL, 1, NULL);
+    
+    //Task, name, quantidade_max_recursos?,?, prioridade, handler
     vTaskStartScheduler();                                  // Inicia agendador   
                           
                    

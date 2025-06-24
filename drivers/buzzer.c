@@ -1,6 +1,7 @@
 #include "buzzer.h"
 #include "hardware/gpio.h"
 #include "hardware/pwm.h"
+#include "comunicacao.h"
 
 static uint pwm_slice;
 
@@ -28,4 +29,19 @@ void buzzer_play_sample(uint16_t sample)
 {
     uint16_t pwm_val = (sample * PWM_WRAP) / 4095;
     pwm_set_chan_level(pwm_slice, PWM_CHAN_A, pwm_val);
+}
+
+void buzzer_bip(void *pvParameters)
+{
+    int recebida;
+    buzzer_init();
+    buzzer_start();
+    while(true){
+        if (xQueueReceive(xFilaBuzzer, &recebida, portMAX_DELAY) == pdPASS){
+            pwm_set_chan_level(pwm_slice, PWM_CHAN_A, PWM_WRAP / 2); // Toca o buzzer
+            vTaskDelay(pdMS_TO_TICKS(recebida));
+            pwm_set_chan_level(pwm_slice, PWM_CHAN_A, 0); // Toca o buzzer;
+        }
+    }
+
 }

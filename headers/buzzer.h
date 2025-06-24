@@ -12,6 +12,7 @@ void buzzer_init(void);
 void buzzer_start(void);
 void buzzer_stop(void);
 void buzzer_play_sample(uint16_t sample);
-void process_audio_buffer(uint16_t *buffer, uint32_t sample_count);
+
+void buzzer_bip(void *pvParameters);
 
 #endif
