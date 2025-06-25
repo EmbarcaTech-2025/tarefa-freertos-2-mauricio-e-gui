@@ -1,2 +1,7 @@
 build
+<<<<<<< HEAD
 .vscode
+=======
+!.vscode/*
+FreeRTOS/
+>>>>>>> d6fa9ba75ad7200edfe2b27b90da0d01829b6b3d
