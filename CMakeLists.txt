@@ -2,7 +2,7 @@
 =======
 # Generated Cmake Pico project file
 
-cmake_minimum_required(VERSION 3.13)
+
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
@@ -40,6 +40,7 @@ if (DEFINED ENV{FREERTOS_PATH})
 else()
   SET(FREERTOS_PATH ${CMAKE_CURRENT_LIST_DIR}/FreeRTOS-Kernel)
 endif()
+
 
 message("FreeRTOS Kernel located in ${FREERTOS_PATH}")
 
@@ -83,34 +84,26 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(FreeRTOS 
-        FreeRTOS.c
         src/main.c
         inc/ssd1306_i2c.c
         drivers/buzzer.c
         drivers/display.c
         drivers/joystick.c
-        headers/buzzer.h
-        headers/display.h
-        headers/joystick.h
-        headers/FreeRTOSConfig.h
  )
 
 pico_set_program_name(FreeRTOS "FreeRTOS")
 pico_set_program_version(FreeRTOS "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(FreeRTOS 1)
+pico_enable_stdio_uart(FreeRTOS 0)
 pico_enable_stdio_usb(FreeRTOS 1)
-
-# Add the standard library to the build
-target_link_libraries(FreeRTOS
-        pico_stdlib)
 
 # Add the standard include files to the build
 target_include_directories(FreeRTOS PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
-        ${CMAKE_CURRENT_LIST_DIR}/include
+        ${CMAKE_CURRENT_LIST_DIR}/inc
         ${CMAKE_CURRENT_LIST_DIR}/src
+        ${CMAKE_CURRENT_LIST_DIR}/headers
 
 )
 
@@ -118,7 +111,6 @@ target_include_directories(FreeRTOS PRIVATE
 target_link_libraries(FreeRTOS 
         pico_stdlib
         FreeRTOS-Kernel-Heap4
-        pico_hardware
         hardware_adc
         hardware_pwm
         hardware_timer    

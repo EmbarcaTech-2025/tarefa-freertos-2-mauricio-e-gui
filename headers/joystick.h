@@ -4,12 +4,16 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/adc.h"
+#include "task.h"
+#include "queue.h"
 
 // --- Configurações ---
 #define JOY_X 26         // GPIO26 -> ADC0
 #define JOY_Y 27         // GPIO27 -> ADC1
 #define SAMPLES 10       // Número de amostras para média
 #define DEAD_ZONE 50     // Faixa de zona morta para valores pequenos
+
+
 
 // --- Inicialização do ADC para joystick ---
 void init_joystick_adc(void);
