@@ -40,8 +40,8 @@ FreeRTOS/
 ├── headers/                # Arquivos de cabeçalho  
 │   ├── buzzer.h  
 │   ├── display.h  
-│   ├── comunicacao.h 
-├── main.c                  # Entrada principal do projeto  
+│   ├── comunicacao.h   
+├── main.c                  # Entrada principal do projeto    
 └── .vscode/  
     └── tasks.json          # Configuração de build e flash no VSCode  
 
