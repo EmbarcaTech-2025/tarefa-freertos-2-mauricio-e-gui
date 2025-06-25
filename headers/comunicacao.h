@@ -3,15 +3,15 @@
 
 #include "FreeRTOS.h"
 #include "queue.h"
+#include "pico/stdlib.h"
 
-// Estrutura que será enviada pela fila
-typedef struct {
-    uint8_t x;
-    uint8_t y;
-} Coordenada;
+// Estrutura para coordenada enviada pelo joystick
+
 
 // Declaração da fila que será usada entre tasks
+/*
 extern QueueHandle_t xFila;
 extern QueueHandle_t xFilaBuzzer;
+*/
 
-#endif // COMUNICACAO_H
+#endif 

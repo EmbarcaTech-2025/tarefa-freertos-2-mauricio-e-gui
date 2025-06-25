@@ -70,9 +70,13 @@ int main()
 
     //Init Joystick
     init_joystick_adc(); 
+    srand(to_us_since_boot(get_absolute_time()));
 
     xFila = xQueueCreate(10, sizeof(Coordenada));
-    xFilaBuzzer = xQueueCreate(10, sizeof(int));
+    xFilaBuzzer = xQueueCreate(10, sizeof(Nota));
+
+
+    buzzer_init();
     //Init FreeRTOS
     xTaskCreate(joystick_task, "Joystick", 256, NULL, 1, NULL);
     xTaskCreate(vDisplayTask, "Display", 256, NULL, 1, NULL); 

@@ -41,6 +41,8 @@
         "display.h": "c",
         "stdlib.h": "c",
         "queue.h": "c",
-        "task.h": "c"
+        "task.h": "c",
+        "pwm.h": "c",
+        "comunicacao.h": "c"
     }
 }
