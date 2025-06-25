@@ -32,18 +32,18 @@ Este projeto demonstra a integração de periféricos no Raspberry Pi Pico W com
 ## 🧠 Estrutura do Projeto
 
 FreeRTOS/
-├── CMakeLists.txt
-├── build/                  # Diretório de build
-├── drivers/                # Drivers de hardware (display, buzzer, etc)
-│   ├── buzzer.c
-│   ├── display.c
-├── headers/                # Arquivos de cabeçalho
-│   ├── buzzer.h
-│   ├── display.h
-│   ├── comunicacao.h
-├── main.c                  # Entrada principal do projeto
-└── .vscode/
-    └── tasks.json          # Configuração de build e flash no VSCode
+├── CMakeLists.txt  
+├── build/                  # Diretório de build  
+├── drivers/                # Drivers de hardware (display, buzzer, etc)  
+│   ├── buzzer.c  
+│   ├── display.c  
+├── headers/                # Arquivos de cabeçalho  
+│   ├── buzzer.h  
+│   ├── display.h  
+│   ├── comunicacao.h 
+├── main.c                  # Entrada principal do projeto  
+└── .vscode/  
+    └── tasks.json          # Configuração de build e flash no VSCode  
 
 ---
 
