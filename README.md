@@ -31,7 +31,7 @@ Este projeto demonstra a integração de periféricos no Raspberry Pi Pico W com
 
 ## 🧠 Estrutura do Projeto
 
-FreeRTOS/
+FreeRTOS/  
 ├── CMakeLists.txt  
 ├── build/                  # Diretório de build  
 ├── drivers/                # Drivers de hardware (display, buzzer, etc)  
